@@ -15,4 +15,9 @@ class Hub extends Model
     {
         return $this->belongsTo(Category::class, 'category_slug', 'slug');
     }
+
+    public function definitions()
+    {
+        return $this->hasMany(HubDefinition::class, 'hub_id', 'id');
+    }
 }

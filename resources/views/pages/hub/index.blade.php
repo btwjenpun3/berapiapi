@@ -67,9 +67,12 @@
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-end mb-0">
-                                        <button class="btn btn-success">
-                                            Subscribe
-                                        </button>
+                                        <a href="{{ route('hub.playground', ['slug' => $hub->slug]) }}">
+                                            <button class="btn btn-primary">
+                                                <i class="fa fa-play me-2"></i>
+                                                Go to playground
+                                            </button>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

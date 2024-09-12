@@ -38,6 +38,9 @@ Route::prefix('/hub')
     ->group(function() {
         Route::get('/', 'index')->name('index'); 
         Route::get('/create', 'create')->name('create');
+        Route::get('/list', 'list')->name('list');
+        Route::get('/studio/{slug}/definitions', 'definitions')->name('definitions');
+        Route::get('/playground/{slug}', 'playground')->name('playground');
     });
 
 Route::prefix('/category')

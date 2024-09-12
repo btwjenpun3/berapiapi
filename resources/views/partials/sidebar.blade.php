@@ -78,15 +78,15 @@
                         <i class="fa fa-thumb-tack"></i>
                         <a class="sidebar-link sidebar-title active" href="javascript:void(0)">
                             <svg class="stroke-icon">
-                                <use href="/assets/svg/icon-sprite.svg#stroke-board"></use>
+                                <use href="/assets/svg/icon-sprite.svg#stroke-maps"></use>
                             </svg>
                             <svg class="fill-icon">
-                                <use href="/assets/svg/icon-sprite.svg#fill-board"></use>
+                                <use href="/assets/svg/icon-sprite.svg#fill-maps"></use>
                             </svg>
-                            <span>Hub Categories</span></a>
+                            <span>Headquarter</span></a>
                         <ul class="sidebar-submenu">
-                            <li><a href="{{ route('category.create') }}">Create Category</a></li>
-                            <li><a href="{{ route('category.index') }}">List Categories</a></li>
+                            <li><a href="{{ route('hub.create') }}">Create Hub</a></li>
+                            <li><a href="{{ route('hub.list') }}">Hub List</a></li>
                         </ul>
                     </li>
                     <li class="sidebar-list">
@@ -98,9 +98,10 @@
                             <svg class="fill-icon">
                                 <use href="/assets/svg/icon-sprite.svg#fill-board"></use>
                             </svg>
-                            <span>Headquarter</span></a>
+                            <span>Hub Categories</span></a>
                         <ul class="sidebar-submenu">
-                            <li><a href="{{ route('hub.create') }}">Create Hub</a></li>
+                            <li><a href="{{ route('category.create') }}" class="active">Create Category</a></li>
+                            <li><a href="{{ route('category.index') }}">List Categories</a></li>
                         </ul>
                     </li>
                 </ul>

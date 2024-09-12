@@ -121,20 +121,17 @@
     <script src="/assets/js/slick/slick.min.js"></script>
     <script src="/assets/js/slick/slick.js"></script>
     <script src="/assets/js/header-slick.js"></script>
-    <script src="/assets/js/prism/prism.min.js"></script>
-    <script src="/assets/js/clipboard/clipboard.min.js"></script>
-    <script src="/assets/js/custom-card/custom-card.js"></script>
+    <script src="/assets/js/chart/apex-chart/apex-chart.js"></script>
+    <script src="/assets/js/chart/apex-chart/stock-prices.js"></script>
+    <script src="/assets/js/chart/apex-chart/moment.min.js"></script>
     <!-- calendar js-->
+    <script src="/assets/js/dashboard/default.js"></script>
     <script src="/assets/js/height-equal.js"></script>
-    <script src="/assets/js/popover-custom.js"></script>
-    <script src="/assets/js/tooltip-init.js"></script>
-    <script src="/assets/js/modalpage/validation-modal.js"></script>
     <!-- Plugins JS Ends-->
     <!-- Theme js-->
     <script src="/assets/js/script.js"></script>
     <script src="/assets/js/script1.js"></script>
-    <script src="/assets/js/theme-customizer/customizer.js"></script>
-    <!-- Plugin used-->
+
 
     <!-- Custom JS -->
     @yield('js')

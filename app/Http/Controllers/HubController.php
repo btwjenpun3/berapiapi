@@ -20,4 +20,39 @@ class HubController extends Controller
     {
         return view('pages.hub.create');
     }
+
+    public function list()
+    {
+        $hubs = Hub::orderBy('id', 'desc')->get();
+
+        return view('pages.hub.list', [
+            'hubs' => $hubs,
+        ]);
+    }
+
+    public function definitions(Request $request)
+    {
+        $hub = Hub::where('slug', $request->slug)->first();
+
+        if (! $hub) {
+            abort(404);
+        }
+
+        return view('pages.hub.studio.definitions', [
+            'hub' => $hub,
+        ]);
+    }
+
+    public function playground(Request $request)
+    {
+        $hub = Hub::where('slug', $request->slug)->first(); 
+
+        if (! $hub) {
+            abort(404);
+        }
+
+        return view('pages.hub.playground', [
+            'hub' => $hub
+        ]);
+    }
 }
