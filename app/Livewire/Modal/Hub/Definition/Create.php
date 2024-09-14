@@ -5,13 +5,15 @@ namespace App\Livewire\Modal\Hub\Definition;
 use App\Livewire\Table\Hub\Definition\Lists;
 use App\Models\HubDefinition;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
+use App\Traits\ConvertArrayEmptyStringToNull;
 use Livewire\Attributes\On;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
 class Create extends Component
 {
+    use ConvertArrayEmptyStringToNull;
+
     public $hubId;
 
     public $name, $method, $endpoint;
@@ -19,15 +21,6 @@ class Create extends Component
     public $headers = [];
 
     public $queries = [];
-
-    // public function mount($id)
-    // {
-    //     $this->hubId = $id;
-        
-    //     $this->method = 'GET';
-
-    //     $this->arrayMount();
-    // }
 
     public function arrayMount()
     {
@@ -80,6 +73,8 @@ class Create extends Component
     public function removeHeader($key)
     {
         unset($this->headers[$key]);
+
+        $this->headers = array_values($this->headers);
     }
 
     public function addQuery($key)
@@ -97,6 +92,8 @@ class Create extends Component
     public function removeQuery($key)
     {
         unset($this->queries[$key]);
+
+        $this->queries = array_values($this->queries);
     }
 
     public function save()
@@ -109,21 +106,22 @@ class Create extends Component
             'headers.*.parameter'   => 'nullable',
             'headers.*.value'       => 'nullable',
             'queries'               => 'required|array',
-            'queries.*.parameter'   => 'required',
-            'queries.*.value'       => 'nullable',
         ]);
 
         DB::beginTransaction();
 
         try {
+            $headers = $this->convertArrayEmptyStringToNull($this->headers);
+            $queries = $this->convertArrayEmptyStringToNull($this->queries);
+
             HubDefinition::create([
                 'hub_id'    => $this->hubId,
                 'uuid'      => Str::uuid(),
                 'name'      => $this->name,
                 'method'    => $this->method,
                 'endpoint'  => $this->endpoint,
-                'headers'   => json_encode($this->headers),
-                'queries'   => json_encode($this->queries)
+                'headers'   => json_encode($headers),
+                'queries'   => json_encode($queries)
             ]);
 
             DB::commit();

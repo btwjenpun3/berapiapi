@@ -76,7 +76,7 @@
                     </li>
                     <li class="sidebar-list">
                         <i class="fa fa-thumb-tack"></i>
-                        <a class="sidebar-link sidebar-title active" href="javascript:void(0)">
+                        <a class="sidebar-link sidebar-title" href="javascript:void(0)">
                             <svg class="stroke-icon">
                                 <use href="/assets/svg/icon-sprite.svg#stroke-maps"></use>
                             </svg>
@@ -99,9 +99,17 @@
                                 <use href="/assets/svg/icon-sprite.svg#fill-board"></use>
                             </svg>
                             <span>Hub Categories</span></a>
-                        <ul class="sidebar-submenu">
-                            <li><a href="{{ route('category.create') }}" class="active">Create Category</a></li>
-                            <li><a href="{{ route('category.index') }}">List Categories</a></li>
+                        <ul class="sidebar-submenu" style="display: none;">
+                            <li>
+                                <a href="{{ route('category.create') }}" class="active">
+                                    Create Category
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('category.index') }}" class="active">
+                                    List Categories
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 </ul>

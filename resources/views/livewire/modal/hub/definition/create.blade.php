@@ -162,8 +162,8 @@
                                                         <tr>
                                                             <th scope="col">Name</th>
                                                             <th scope="col">Type</th>
-                                                            <th scope="col">Required</th>
                                                             <th scope="col">Default Value</th>
+                                                            <th scope="col">Required</th>
                                                             <th scope="col">Actions</th>
                                                         </tr>
                                                     </thead>

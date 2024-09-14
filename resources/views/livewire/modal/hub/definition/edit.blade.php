@@ -92,8 +92,8 @@
                                                         <tr>
                                                             <th scope="col">Name</th>
                                                             <th scope="col">Type</th>
-                                                            <th scope="col">Required</th>
                                                             <th scope="col">Default Value</th>
+                                                            <th scope="col">Required</th>
                                                             <th scope="col">Actions</th>
                                                         </tr>
                                                     </thead>
@@ -104,7 +104,7 @@
                                                                     <input type="text"
                                                                         class="form-control @error('headers.' . $key . '.parameter') is-invalid @enderror"
                                                                         placeholder="Insert valid parameter name"
-                                                                        wire:model='headers.{{ $key }}.parameter'>
+                                                                        wire:model.lazy='headers.{{ $key }}.parameter'>
                                                                 </td>
                                                                 <td>
                                                                     <select class="form-select"
@@ -132,19 +132,21 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="d-flex justify-content-start">
-                                                                        @if ($loop->last)
-                                                                            <button
-                                                                                class="btn btn-outline-success btn-sm b-r-8 me-3"
-                                                                                wire:click='addHeader({{ $key }})'>
-                                                                                Add Header
-                                                                            </button>
-                                                                        @endif
-                                                                        @if (count($headers) > 1)
-                                                                            <button
-                                                                                class="btn btn-outline-warning btn-sm b-r-8"
-                                                                                wire:click='removeHeader({{ $key }})'>
-                                                                                Delete
-                                                                            </button>
+                                                                        @if (!empty($headers[$key]['parameter']))
+                                                                            @if ($loop->last)
+                                                                                <button
+                                                                                    class="btn btn-outline-success btn-sm b-r-8 me-3"
+                                                                                    wire:click='addHeader({{ $key }})'>
+                                                                                    Add Header
+                                                                                </button>
+                                                                            @endif
+                                                                            @if (count($headers) > 1)
+                                                                                <button
+                                                                                    class="btn btn-outline-warning btn-sm b-r-8"
+                                                                                    wire:click='removeHeader({{ $key }})'>
+                                                                                    Delete
+                                                                                </button>
+                                                                            @endif
                                                                         @endif
                                                                     </div>
                                                                 </td>
@@ -176,7 +178,7 @@
                                                                     <input type="text"
                                                                         class="form-control @error('queries.' . $key . '.parameter') is-invalid @enderror"
                                                                         placeholder="Insert valid parameter name"
-                                                                        wire:model='queries.{{ $key }}.parameter'>
+                                                                        wire:model.lazy='queries.{{ $key }}.parameter'>
                                                                 </td>
                                                                 <td>
                                                                     <select class="form-select"
@@ -204,19 +206,21 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="d-flex justify-content-start">
-                                                                        @if ($loop->last)
-                                                                            <button
-                                                                                class="btn btn-outline-success btn-sm b-r-8 me-3"
-                                                                                wire:click='addQuery({{ $key }})'>
-                                                                                Add Query
-                                                                            </button>
-                                                                        @endif
-                                                                        @if (count($queries) > 1)
-                                                                            <button
-                                                                                class="btn btn-outline-warning btn-sm b-r-8"
-                                                                                wire:click='removeQuery({{ $key }})'>
-                                                                                Delete
-                                                                            </button>
+                                                                        @if (!empty($queries[$key]['parameter']))
+                                                                            @if ($loop->last)
+                                                                                <button
+                                                                                    class="btn btn-outline-success btn-sm b-r-8 me-3"
+                                                                                    wire:click='addQuery({{ $key }})'>
+                                                                                    Add Query
+                                                                                </button>
+                                                                            @endif
+                                                                            @if (count($queries) > 1)
+                                                                                <button
+                                                                                    class="btn btn-outline-warning btn-sm b-r-8"
+                                                                                    wire:click='removeQuery({{ $key }})'>
+                                                                                    Delete
+                                                                                </button>
+                                                                            @endif
                                                                         @endif
                                                                     </div>
                                                                 </td>

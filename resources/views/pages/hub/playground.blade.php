@@ -1,5 +1,15 @@
 @extends('layout.app')
 
+@section('css')
+    <style>
+        pre {
+            overflow: auto;
+            padding: 5px;
+            max-height: 60vh;
+        }
+    </style>
+@endsection
+
 @section('main_title')
     <title>Berapiapi 🔥 | Playground</title>
 @endsection
@@ -19,5 +29,8 @@
 @endsection
 
 @section('content')
-    @livewire('content.hub.playground.side-menu', ['hub' => $hub])
+    <div class="row">
+        @livewire('content.hub.playground.side-menu', ['hub' => $hub])
+        @livewire('content.hub.playground.endpoint')
+    </div>
 @endsection

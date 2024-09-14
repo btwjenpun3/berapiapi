@@ -4,12 +4,15 @@ namespace App\Livewire\Modal\Hub\Definition;
 
 use App\Livewire\Table\Hub\Definition\Lists;
 use App\Models\HubDefinition;
+use App\Traits\ConvertArrayEmptyStringToNull;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Edit extends Component
 {
+    use ConvertArrayEmptyStringToNull;
+
     public $definitionId;
 
     public $name, $method, $endpoint;
@@ -32,8 +35,8 @@ class Edit extends Component
             $this->method   = $definition->method;
             $this->endpoint = $definition->endpoint;
             
-            $this->headers = json_decode($definition->headers);
-            $this->queries = json_decode($definition->queries);
+            $this->headers = json_decode($definition->headers, true);
+            $this->queries = json_decode($definition->queries, true);
 
             $this->dispatch('show')->self();
 
@@ -57,6 +60,8 @@ class Edit extends Component
     public function removeHeader($key)
     {
         unset($this->headers[$key]);
+
+        $this->headers = array_values($this->headers);
     }
 
     public function addQuery($key)
@@ -74,11 +79,8 @@ class Edit extends Component
     public function removeQuery($key)
     {
         unset($this->queries[$key]);
-    }
 
-    public function debug()
-    {
-        dd($this->queries);
+        $this->queries = array_values($this->queries);
     }
 
     public function save()
@@ -91,17 +93,21 @@ class Edit extends Component
             'method'                => 'required',
             'headers'               => 'array',
             'queries'               => 'required|array',
+            'queries.*.parameter'   => 'required'
         ]);
 
         DB::beginTransaction();
 
         try {
+            $headers = $this->convertArrayEmptyStringToNull($this->headers);
+            $queries = $this->convertArrayEmptyStringToNull($this->queries);
+
             HubDefinition::where('id', $this->definitionId)->update([
                 'name'      => $this->name,
                 'method'    => $this->method,
                 'endpoint'  => $this->endpoint,
-                'headers'   => json_encode($this->headers),
-                'queries'   => json_encode($this->queries)
+                'headers'   => json_encode($headers),
+                'queries'   => json_encode($queries)
             ]);
 
             DB::commit();

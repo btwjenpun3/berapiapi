@@ -344,9 +344,7 @@
     $(".sidebar-wrapper nav ul li a").filter(function () {
       var link = $(this).attr("href");
       if (link) {
-        var linkPath = new URL(link, window.location.origin).pathname;
-        
-        if (current==linkPath) {
+        if (current.indexOf(link) != -1) {
           $(this).parents().children("a").addClass("active");
           $(this).parents().parents().children("ul").css("display", "block");
           $(this).addClass("active");
@@ -374,41 +372,7 @@
         }
       }
     });
-
-    // For same url module active page
-    $(".sidebar-wrapper nav ul.sidebar-links li a").each(function() {
-      var menuUrl = $(this).attr("href");
-      var linkPathName = new URL(menuUrl, window.location.origin).pathname;
-      if (current.includes(linkPathName)) {
-        $(this).parents().children("a").addClass("active");
-        $(this).parents().parents().children("ul").css("display", "block");
-        $(this).addClass("active");
-        $(this)
-          .parent()
-          .parent()
-          .parent()
-          .children("a")
-          .find("div")
-          .replaceWith(
-            '<div class="according-menu"><i class="fa fa-angle-down"></i></div>'
-          );
-        $(this)
-          .parent()
-          .parent()
-          .parent()
-          .parent()
-          .parent()
-          .children("a")
-          .find("div")
-          .replaceWith(
-            '<div class="according-menu"><i class="fa fa-angle-down"></i></div>'
-          );
-        return false;
-      }
-    });
   }
-
-
 
   $(".left-header .mega-menu .nav-link").on("click", function (event) {
     event.stopPropagation();

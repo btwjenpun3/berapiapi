@@ -44,6 +44,7 @@
     <!-- Responsive css-->
     <link rel="stylesheet" type="text/css" href="/assets/css/responsive.css">
     @livewireStyles()
+    @yield('css')
 </head>
 
 <body>

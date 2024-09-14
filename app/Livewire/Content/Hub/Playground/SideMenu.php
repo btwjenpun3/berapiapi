@@ -13,6 +13,11 @@ class SideMenu extends Component
         $this->hub = $hub;
     }
 
+    public function selectEndpoint($definitionId)
+    {
+        $this->dispatch('select-endpoint', $definitionId)->to(Endpoint::class);
+    }
+
     public function render()
     {
         return view('livewire.content.hub.playground.side-menu');
