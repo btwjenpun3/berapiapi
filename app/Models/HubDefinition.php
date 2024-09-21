@@ -16,4 +16,9 @@ class HubDefinition extends Model
     {
         return $this->belongsTo(Hub::class, 'hub_id', 'id');
     }
+
+    public function setEndpointAttribute($value)
+    {
+        $this->attributes['endpoint'] = $value === '' ? null : $value;
+    }
 }

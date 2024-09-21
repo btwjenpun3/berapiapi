@@ -21,9 +21,9 @@
                         @enderror
                     </div>
                     <div class="col-md-12">
-                        <label class="form-label" for="endpoint">Endpoint</label>
+                        <label class="form-label" for="endpoint">Base URL</label>
                         <input class="form-control @error('endpoint') is-invalid @enderror" id="endpoint"
-                            type="text" placeholder="Hub endpoint" wire:model='endpoint'>
+                            type="text" placeholder="Hub base url" wire:model='base_url'>
                         @error('endpoint')
                             <div class="invalid-feedback">
                                 {{ $message }}

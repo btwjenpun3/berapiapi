@@ -22,6 +22,10 @@ class Create extends Component
 
     public $queries = [];
 
+    public $pathParameters = [];
+
+    public $showPathParameter = false;
+
     public function arrayMount()
     {
         $this->headers[] = [
@@ -96,16 +100,48 @@ class Create extends Component
         $this->queries = array_values($this->queries);
     }
 
+    /**
+     * Show Path Paramter
+     * 
+     * Show Path Parameter form if endpoint contains {}
+     */
+    public function updatedEndpoint($value)
+    {
+        $pattern = '/\{([^\}]+)\}/';
+        $string = $value;
+
+        if (preg_match_all($pattern, $string, $matches)) {
+            $this->pathParameters = [];
+
+            foreach ($matches[1] as $match) {
+                $this->pathParameters[] = [
+                    'parameter' => $match,
+                    'type'      => 'string',
+                    'value'     => null,
+                    'required'  => false
+                ];
+            }
+
+            $this->showPathParameter = true;
+
+        } else {
+            $this->pathParameters = [];
+
+            $this->showPathParameter = false;
+        }
+    }
+
     public function save()
     {
         $this->validate([
             'name'                  => 'required|max:255',
-            'endpoint'              => 'required|max:255',
+            'endpoint'              => 'nullable|max:255',
             'method'                => 'required',
             'headers'               => 'array',
             'headers.*.parameter'   => 'nullable',
             'headers.*.value'       => 'nullable',
             'queries'               => 'required|array',
+            'pathParameters'        => 'array'
         ]);
 
         DB::beginTransaction();
@@ -113,15 +149,17 @@ class Create extends Component
         try {
             $headers = $this->convertArrayEmptyStringToNull($this->headers);
             $queries = $this->convertArrayEmptyStringToNull($this->queries);
+            $pathParameters = $this->pathParameters;
 
             HubDefinition::create([
-                'hub_id'    => $this->hubId,
-                'uuid'      => Str::uuid(),
-                'name'      => $this->name,
-                'method'    => $this->method,
-                'endpoint'  => $this->endpoint,
-                'headers'   => json_encode($headers),
-                'queries'   => json_encode($queries)
+                'hub_id'            => $this->hubId,
+                'uuid'              => Str::uuid(),
+                'name'              => $this->name,
+                'method'            => $this->method,
+                'endpoint'          => $this->endpoint,
+                'path_parameter'    => json_encode($pathParameters),
+                'headers'           => json_encode($headers),
+                'queries'           => json_encode($queries)
             ]);
 
             DB::commit();

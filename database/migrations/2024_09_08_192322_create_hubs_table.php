@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('slug')->unique();
-            $table->string('endpoint');
+            $table->string('base_url');
             $table->string('category_slug');
             $table->foreign('category_slug')->references('slug')->on('categories')->onDelete('cascade');
-            $table->string('description');
+            $table->text('description')->nullable();
             $table->string('price');
             $table->boolean('result_logging');
             $table->timestamps();

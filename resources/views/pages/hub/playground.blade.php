@@ -24,6 +24,7 @@
             <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}"> <i data-feather="home"> </i></a></li>
             <li class="breadcrumb-item f-w-400"><a href="{{ route('hub.index') }}">Hub</a></li>
             <li class="breadcrumb-item f-w-400">Playground</li>
+            <li class="breadcrumb-item f-w-400">{{ $hub->title }}</li>
         </ol>
     </nav>
 @endsection

@@ -10,14 +10,14 @@ use Livewire\Component;
 
 class Create extends Component
 {
-    public $title, $endpoint, $description, $category, $price, $resultLogging;
+    public $title, $base_url, $description, $category, $price, $resultLogging;
 
     public function submit()
     {
         $this->validate([
             'title'         => 'required|max:255',
-            'endpoint'      => 'required',
-            'description'   => 'required|max:255',
+            'base_url'      => 'required',
+            'description'   => 'max:2000',
             'category'      => 'required',
             'price'         => 'required',
             'resultLogging' => 'required|boolean',
@@ -36,10 +36,10 @@ class Create extends Component
                 $counter++;
             }
 
-            Hub::create([
+            $hub = Hub::create([
                 'title'             => $this->title,
                 'slug'              => $slug,
-                'endpoint'          => $this->endpoint,
+                'base_url'          => $this->base_url,
                 'description'       => $this->description,
                 'category_slug'     => $this->category,
                 'price'             => $this->price,
@@ -47,6 +47,8 @@ class Create extends Component
             ]);
 
             DB::commit();
+
+            return redirect()->route('hub.definitions', ['slug' => $hub->slug]);
 
         } catch (\Exception $e) {
             DB::rollBack();

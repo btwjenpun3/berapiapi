@@ -35,7 +35,7 @@
                                             <p>by : Berapiapi</p>
                                         </div>
                                     </div>
-                                    <p>{{ $hub->description }}</p>
+                                    <p>{{ Str::limit($hub->description, 50) }}</p>
                                     <div class="row details">
                                         <div class="col-6"><span>Price </span></div>
                                         <div class="col-6 font-primary">

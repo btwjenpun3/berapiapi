@@ -40,7 +40,7 @@ Route::prefix('/')
         Route::get('/headquarter/create', 'create')->name('create');
         Route::get('/headquarter/list', 'list')->name('list');
         Route::get('/studio/{slug}/definitions', 'definitions')->name('definitions');
-        Route::get('/playground/{slug}', 'playground')->name('playground');
+        Route::get('/hub/playground/{slug}', 'playground')->name('playground');
     });
 
 Route::prefix('/category')

@@ -46,8 +46,12 @@
                                         <span class="input-group-text" id="basic-addon1">/</span>
                                         <input class="form-control @error('endpoint') is-invalid @enderror"
                                             type="text" placeholder="Specify the endpoint path relative to base URL"
-                                            wire:model='endpoint'>
+                                            wire:model.lazy='endpoint'>
                                     </div>
+                                    <small class="text-dark">
+                                        <i>use {curly braces} to indicate path parameters if needed. e.g.,
+                                            /employees/{id}</i>
+                                    </small>
                                     @error('endpoint')
                                         <div class="is-invalid text-danger">
                                             {{ $message }}
@@ -60,16 +64,23 @@
                                 <div class="card-body bottom-border-tab">
                                     <ul class="nav nav-tabs border-tab mb-0" id="bottom-tab" role="tablist">
                                         <li class="nav-item">
-                                            <button class="nav-link nav-border txt-info tab-info pt-0 active"
-                                                id="headers-tab" data-bs-toggle="tab" href="#headers" role="tab"
+                                            <button class="nav-link nav-border txt-info tab-info pt-0" id="path-tab"
+                                                data-bs-toggle="tab" href="#path" role="tab" aria-controls="path"
+                                                aria-selected="true" wire:ignore.self>
+                                                Path Parameter
+                                            </button>
+                                        </li>
+                                        <li class="nav-item">
+                                            <button class="nav-link nav-border txt-info tab-info pt-0" id="headers-tab"
+                                                data-bs-toggle="tab" href="#headers" role="tab"
                                                 aria-controls="headers" aria-selected="true" wire:ignore.self>
                                                 Headers
                                             </button>
                                         </li>
                                         <li class="nav-item">
-                                            <button class="nav-link nav-border txt-info tab-info pt-0" id="query-tab"
-                                                data-bs-toggle="tab" href="#query" role="tab" aria-controls="query"
-                                                aria-selected="true" wire:ignore.self>
+                                            <button class="nav-link nav-border txt-info tab-info pt-0 active"
+                                                id="query-tab" data-bs-toggle="tab" href="#query" role="tab"
+                                                aria-controls="query" aria-selected="true" wire:ignore.self>
                                                 Query
                                             </button>
                                         </li>
@@ -82,7 +93,69 @@
                                         </li>
                                     </ul>
                                     <div class="tab-content" id="bottom-tabContent">
-                                        <div class="tab-pane fade show active" id="headers" role="tabpanel"
+                                        <div class="tab-pane fade" id="path" role="tabpanel"
+                                            aria-labelledby="path-tab" wire:ignore.self>
+                                            <div class="table-responsive theme-scrollbar signal-table table-vcenter">
+                                                @if ($showPathParameter)
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Name</th>
+                                                                <th scope="col">Type</th>
+                                                                <th scope="col">Default Value</th>
+                                                                <th scope="col">Required</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($pathParameters as $key => $pathParameter)
+                                                                <tr wire:key='path-create-{{ $key }}'>
+                                                                    <td>
+                                                                        <input type="text"
+                                                                            class="form-control @error('pathParameters.' . $key . '.parameter') is-invalid @enderror"
+                                                                            placeholder="Insert valid parameter name"
+                                                                            wire:model='pathParameters.{{ $key }}.parameter'
+                                                                            disabled>
+                                                                    </td>
+                                                                    <td>
+                                                                        <select class="form-select"
+                                                                            wire:model='pathParameters.{{ $key }}.type'>
+                                                                            <option value="string">STRING</option>
+                                                                            <option value="number">NUMBER</option>
+                                                                            <option value="boolean">BOOLEAN</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text"
+                                                                            class="form-control @error('pathParameters.' . $key . '.value') is-invalid @enderror"
+                                                                            placeholder="Value"
+                                                                            wire:model='pathParameters.{{ $key }}.value'>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div
+                                                                            class="text-start icon-state switch-outline">
+                                                                            <label class="switch mb-0">
+                                                                                <input type="checkbox"
+                                                                                    wire:model='pathParameters.{{ $key }}.required'>
+                                                                                <span
+                                                                                    class="switch-state bg-secondary">
+                                                                                </span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                @else
+                                                    <p class="mt-3">
+                                                        No Path Parameter found
+                                                    </p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-content" id="bottom-tabContent">
+                                        <div class="tab-pane fade" id="headers" role="tabpanel"
                                             aria-labelledby="headers-tab" wire:ignore.self>
                                             <div class="table-responsive theme-scrollbar signal-table table-vcenter">
                                                 <table class="table table-hover">
@@ -154,7 +227,7 @@
                                         </div>
                                     </div>
                                     <div class="tab-content" id="bottom-tabContent">
-                                        <div class="tab-pane fade" id="query" role="tabpanel"
+                                        <div class="tab-pane fade show active" id="query" role="tabpanel"
                                             aria-labelledby="query-tab" wire:ignore.self>
                                             <div class="table-responsive theme-scrollbar signal-table table-vcenter">
                                                 <table class="table table-hover">

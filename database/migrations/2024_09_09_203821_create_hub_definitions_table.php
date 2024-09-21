@@ -18,7 +18,8 @@ return new class extends Migration
             $table->uuid('uuid')->unique();
             $table->string('name');
             $table->string('method');
-            $table->string('endpoint');
+            $table->string('endpoint')->nullable();
+            $table->json('path_parameter');
             $table->json('headers');
             $table->json('queries');
             $table->timestamps();

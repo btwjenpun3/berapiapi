@@ -21,6 +21,10 @@ class Edit extends Component
 
     public $queries = [];
 
+    public $pathParameters = [];
+
+    public $showPathParameter = false;
+
     #[On('open-edit-modal')]
     public function open($definitionId)
     {
@@ -37,6 +41,11 @@ class Edit extends Component
             
             $this->headers = json_decode($definition->headers, true);
             $this->queries = json_decode($definition->queries, true);
+            $this->pathParameters = json_decode($definition->path_parameter, true);
+            
+            if (isset($this->pathParameters) && count($this->pathParameters) > 0) {
+                $this->showPathParameter = true;
+            }
 
             $this->dispatch('show')->self();
 
@@ -83,17 +92,47 @@ class Edit extends Component
         $this->queries = array_values($this->queries);
     }
 
+    /**
+     * Show Path Paramter
+     * 
+     * Show Path Parameter form if endpoint contains {}
+     */
+    public function updatedEndpoint($value)
+    {
+        $pattern = '/\{([^\}]+)\}/';
+        $string = $value;
+
+        if (preg_match_all($pattern, $string, $matches)) {
+            $this->pathParameters = [];
+
+            foreach ($matches[1] as $match) {
+                $this->pathParameters[] = [
+                    'parameter' => $match,
+                    'type'      => 'string',
+                    'value'     => null,
+                    'required'  => false
+                ];
+            }
+
+            $this->showPathParameter = true;
+
+        } else {
+            $this->pathParameters = [];
+
+            $this->showPathParameter = false;
+        }
+    }
+
     public function save()
     {
         //dd($this->queries);
 
         $this->validate([
             'name'                  => 'required|max:255',
-            'endpoint'              => 'required|max:255',
+            'endpoint'              => 'nullable|max:255',
             'method'                => 'required',
             'headers'               => 'array',
             'queries'               => 'required|array',
-            'queries.*.parameter'   => 'required'
         ]);
 
         DB::beginTransaction();
@@ -101,11 +140,13 @@ class Edit extends Component
         try {
             $headers = $this->convertArrayEmptyStringToNull($this->headers);
             $queries = $this->convertArrayEmptyStringToNull($this->queries);
+            $pathParameters = $this->pathParameters;
 
             HubDefinition::where('id', $this->definitionId)->update([
                 'name'      => $this->name,
                 'method'    => $this->method,
                 'endpoint'  => $this->endpoint,
+                'path_parameter' => json_encode($pathParameters),
                 'headers'   => json_encode($headers),
                 'queries'   => json_encode($queries)
             ]);
